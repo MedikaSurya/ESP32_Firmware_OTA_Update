@@ -7,6 +7,12 @@
 #include <Update.h>
 #include <WiFiClientSecure.h>
 
+extern char* firmware_url;
+extern String curr_version;
+extern String recieve_version;
+extern bool is_updating;
+extern String whenToUpdate;
+extern struct tm timeinfo;
 
 void performOTA();
 

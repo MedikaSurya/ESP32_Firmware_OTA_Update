@@ -6,7 +6,11 @@
 
 #include "sRusun_Firmware_Update.h"
 
-const char* firmware_url = "https://github.com/MedikaSurya/ESP32_Firmware_OTA_Update/raw/main/.pio/build/denky32/firmware.bin";
+char* firmware_url = "https://github.com/MedikaSurya/ESP32_Firmware_OTA_Update/raw/main/.pio/build/denky32/firmware.bin";
+String curr_version = "1.0.0";
+String recieve_version = "";
+String whenToUpdate = "now";
+bool is_updating = false;
 
 void performOTA() 
 {
@@ -39,6 +43,8 @@ void performOTA()
         if (Update.end()) 
         {
           Serial.println("OTA Complete. Restarting...");
+          is_updating = false; // Reset updating flag
+          
           ESP.restart(); // Restart into the new firmware
 
 

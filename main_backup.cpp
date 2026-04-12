@@ -17,6 +17,7 @@
 #include "sRusun_servo_valve.h"
 #include "SRusun_Display.h"
 #include "SRusun_electricity_SSR.h"
+#include "sRusun_Firmware_Update.h"
 
 //========================== Read Sensor Functions (Modular)
 unsigned long now = 0;
@@ -158,8 +159,39 @@ void taskDataWrite(void* param)
           lastAuthResponse = lastSendResponse;
           logMsg("taskDataWrite()", "sendData failed with " + String(lastSendResponse) + ". Aborting batch send for this cycle.", enableLogging);
         }
+
         else 
         {
+          //Check OTA Update
+          if (is_updating == true)
+          {
+            //Check when to update
+            if (whenToUpdate == "now")
+            {
+              logMsg("taskDataWrite()", "Initiating OTA Update as per schedule.", enableLogging);
+              performOTA();
+            }
+            else if (whenToUpdate == "tonight")
+            {
+              logMsg("taskDataWrite()", "OTA Update scheduled for tonight.", enableLogging);
+
+              // Implement logic to check if it's midnight (00.00)
+              time_t currentTime = time(NULL);
+              struct tm *localTime = localtime(&currentTime);
+              int hour = localTime->tm_hour;
+              int minute = localTime->tm_min;
+              if (hour == 0 && minute == 0)
+              {
+                logMsg("taskDataWrite()", "It's nighttime. Initiating OTA Update.", enableLogging);
+                performOTA();
+              } 
+              else 
+              {
+                logMsg("taskDataWrite()", "Not nighttime yet. OTA Update will be attempted later.", enableLogging);
+              }
+            }
+          }
+
           logMsg("taskDataWrite()", "Data sent to server.", enableLogging);
 
           // ONLY attempt batch send if the primary sendData succeeded!

@@ -9,7 +9,7 @@
 #include <PZEM004Tv30.h>
 #include <stdint.h>
 #include "driver/pcnt.h"
-
+#include <Update.h>
 
 #include "sRusun_Data_Handler.h"
 #include "SRusun_Base_Function.h"
@@ -17,6 +17,7 @@
 #include "sRusun_Kwhmeter.h"
 #include "sRusun_servo_valve.h"
 #include "SRusun_electricity_SSR.h"
+#include "sRusun_Firmware_Update.h"
 
 String apiKey = "";
 String unitId = "";
@@ -113,6 +114,7 @@ int authDevice(bool logger)
   docAuth["device_mac_address"] = deviceMacAddress;
   docAuth["device_serial_number"] = deviceSerialNumber;
   docAuth["device_api_key"] = apiKey;
+  docAuth["version"] = curr_version;
 
   String jsonBodyAuth;
   serializeJson(docAuth, jsonBodyAuth);
@@ -256,8 +258,24 @@ int sendData(StaticJsonDocument<1024> doc, bool logger)
       https.end();
       return responseCode;
     }
+    //Jika berhasil 3B - Handle OTA dan Aktuator
 
-    //Jika berhasil 3B - Handle servo control instruction
+    //Cek OTA
+    if(!error && responseDoc["data"]["firmware_update"].is<JsonObject>())
+    {
+      JsonObject firmwareUpdate = responseDoc["data"]["firmware_update"];
+      String binaryLink = firmwareUpdate["binary_link"].as<String>();
+      String updateTime = firmwareUpdate["update_time"].as<String>();
+      String version = firmwareUpdate["version"].as<String>();
+
+      //Berikan url dan Flag untuk update di main loop
+      logMsg("SendData", "Received firmware update instruction. Binary link: " + binaryLink + ", Update time: " + updateTime + ", Received Version: " + version, logger);
+      firmware_url = (char*)binaryLink.c_str();
+      whenToUpdate = updateTime; 
+      recieve_version = version;
+    }
+
+    //Cek Perintah Aktuator
     if (!error && responseDoc["data"]["user_instruction"].is<JsonObject>())
     {
       JsonObject instruction = responseDoc["data"]["user_instruction"];
@@ -310,7 +328,6 @@ int sendData(StaticJsonDocument<1024> doc, bool logger)
           SSRClose();
         }
       }
-
     }
 
     https.end();

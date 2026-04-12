@@ -45,7 +45,7 @@ void readPZEM()
 
     else 
     {
-        Serial.println("Failed to read from PZEM004T");
+        //Serial.println("Failed to read from PZEM004T");
     }
 }
 
