@@ -1,0 +1,11 @@
+1. build dulu file main.cpp di Platform Io
+2. Saat selesai cek firmware.bin di path berikut pastikan ada dan terbaru
+
+3. Lalu lakukan update github firmware
+
+git add .\.pio\build\denky32\firmware.bin
+
+git commit -m "firmware_ver_1" //versi firmware di githubnya
+
+git push origin main
+
