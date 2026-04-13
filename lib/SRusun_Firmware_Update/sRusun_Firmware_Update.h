@@ -7,7 +7,7 @@
 #include <Update.h>
 #include <WiFiClientSecure.h>
 
-extern char* firmware_url;
+extern String firmware_url;
 extern String curr_version;
 extern String recieve_version;
 extern bool is_updating;

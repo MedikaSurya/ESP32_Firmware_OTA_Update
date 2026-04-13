@@ -236,4 +236,16 @@
  C:/Users/Support/.platformio/packages/framework-arduinoespressif32/libraries/Update/src/Update.h \
  C:/Users/Support/.platformio/packages/framework-arduinoespressif32/cores/esp32/MD5Builder.h \
  C:/Users/Support/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_rom/include/esp_rom_md5.h \
- lib/SRusun_Firmware_Update/sRusun_Firmware_Update.h
+ lib/SRusun_Firmware_Update/sRusun_Firmware_Update.h \
+ lib/SRusun_Base_Function/SRusun_Base_Function.h \
+ C:/Users/Support/.platformio/packages/framework-arduinoespressif32/libraries/SD/src/SD.h \
+ C:/Users/Support/.platformio/packages/framework-arduinoespressif32/libraries/FS/src/FS.h \
+ C:/Users/Support/.platformio/packages/framework-arduinoespressif32/libraries/SPI/src/SPI.h \
+ C:/Users/Support/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-spi.h \
+ C:/Users/Support/.platformio/packages/framework-arduinoespressif32/libraries/SD/src/sd_defines.h \
+ .pio/libdeps/denky32/LiquidCrystal_I2C/LiquidCrystal_I2C.h \
+ C:/Users/Support/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src/Wire.h \
+ C:/Users/Support/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal.h \
+ .pio/libdeps/denky32/ArduinoJson/src/ArduinoJson.h \
+ .pio/libdeps/denky32/ArduinoJson/src/ArduinoJson.hpp \
+ .pio/libdeps/denky32/ArduinoJson/src/ArduinoJson/Configuration.hpp

@@ -151,7 +151,7 @@ void taskDataWrite(void* param)
 
       if (WiFi.status() == WL_CONNECTED && lastAPIResponse == 200 && lastAuthResponse == 200) 
       { 
-        lastSendResponse = sendData(doc, true);
+        lastSendResponse = sendData(doc, false);
         
         if (lastSendResponse != 200)
         {
@@ -275,7 +275,7 @@ void setup()
   initServoValve();
   initPZEM();
   initSSR();
-  
+
   ServoValveOpen();
   SSROpen();
   
@@ -285,7 +285,7 @@ void setup()
 
   //SD.remove("/state.json");
   readState(false);
-
+  
   // Set servo to match the loaded state from SD card
   if (water_valve_state) 
   {
@@ -295,6 +295,8 @@ void setup()
   {
     ServoValveClose();
   }
+  
+  Serial.printf("Setup(): Firmware version: %s\n", curr_version);
 
   connectToWiFi(true);
 

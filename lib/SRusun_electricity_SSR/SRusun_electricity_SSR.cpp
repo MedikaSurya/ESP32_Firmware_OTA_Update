@@ -2,7 +2,7 @@
 
 #include "SRusun_electricity_SSR.h"
 
-bool SSR_state;
+bool SSR_state = true;
 int kSSRPin = 27;
 
 void initSSR()

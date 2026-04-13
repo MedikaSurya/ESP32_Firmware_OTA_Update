@@ -151,7 +151,7 @@ void taskDataWrite(void* param)
 
       if (WiFi.status() == WL_CONNECTED && lastAPIResponse == 200 && lastAuthResponse == 200) 
       { 
-        lastSendResponse = sendData(doc, true);
+        lastSendResponse = sendData(doc, false);
         
         if (lastSendResponse != 200)
         {
@@ -169,7 +169,7 @@ void taskDataWrite(void* param)
             if (whenToUpdate == "now")
             {
               logMsg("taskDataWrite()", "Initiating OTA Update as per schedule.", enableLogging);
-              performOTA();
+              performOTA(); //Will Restart ESP32 if OTA is successful, so no need to handle post-OTA logic here.
             }
             else if (whenToUpdate == "tonight")
             {
@@ -180,10 +180,11 @@ void taskDataWrite(void* param)
               struct tm *localTime = localtime(&currentTime);
               int hour = localTime->tm_hour;
               int minute = localTime->tm_min;
+
               if (hour == 0 && minute == 0)
               {
                 logMsg("taskDataWrite()", "It's nighttime. Initiating OTA Update.", enableLogging);
-                performOTA();
+                performOTA(); //Will Restart ESP32 if OTA is successful, so no need to handle post-OTA logic here.
               } 
               else 
               {
@@ -274,7 +275,7 @@ void setup()
   initServoValve();
   initPZEM();
   initSSR();
-  
+
   ServoValveOpen();
   SSROpen();
   
@@ -284,7 +285,7 @@ void setup()
 
   //SD.remove("/state.json");
   readState(false);
-
+  
   // Set servo to match the loaded state from SD card
   if (water_valve_state) 
   {
@@ -294,6 +295,8 @@ void setup()
   {
     ServoValveClose();
   }
+  
+  Serial.printf("Setup(): Firmware version: %s\n", curr_version);
 
   connectToWiFi(true);
 

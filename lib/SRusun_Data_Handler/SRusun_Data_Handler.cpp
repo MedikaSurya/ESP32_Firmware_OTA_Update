@@ -270,9 +270,10 @@ int sendData(StaticJsonDocument<1024> doc, bool logger)
 
       //Berikan url dan Flag untuk update di main loop
       logMsg("SendData", "Received firmware update instruction. Binary link: " + binaryLink + ", Update time: " + updateTime + ", Received Version: " + version, logger);
-      firmware_url = (char*)binaryLink.c_str();
+      firmware_url = binaryLink;
       whenToUpdate = updateTime; 
       recieve_version = version;
+      is_updating = true;
     }
 
     //Cek Perintah Aktuator
